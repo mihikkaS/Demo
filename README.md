@@ -10,7 +10,7 @@ end
 %% ==== FRONTEND ====
 subgraph "Frontend (Netlify)"
     C{React App UI}
-    C_WC[Whistle Counter]
+    C_C[Whistle Counter]
     C_T[Timer]
     C_M[Music Player]
     C_R[Recipe Helper]
