@@ -1,106 +1,68 @@
 # Demo
 
-```mermaid
 graph TD
+    %% ==== USER SIDE ====
     subgraph "User's Device"
-        A["📱 Browser"]
-        B("🔊 Microphone")
+        A[Browser]
+        B(Microphone)
     end
 
-    subgraph "Frontend (Hosted on Netlify)"
-        C{"⚛️ React App UI"}
-        C_WC["Whistle Counter"]
-        C_T["Timer"]
-        C_M["Music Player"]
-        C_R["Recipe Helper"]
-        C_H["Dish Horoscope"]
-        C_Chat["Ask Kunjuttan"]
+    %% ==== FRONTEND ====
+    subgraph "Frontend (Netlify)"
+        C{React App UI}
+        C_WC[Whistle Counter]
+        C_T[Timer]
+        C_M[Music Player]
+        C_R[Recipe Helper]
+        C_H[Dish Horoscope]
+        C_Chat[Ask Kunjuttan]
     end
 
-    subgraph "Backend (Hosted on Render)"
-        D("⚙️ Node.js Server")
-        D_R["api-ai-recipe"]
-        D_H["api-dish-horoscope"]
+    %% ==== BACKEND ====
+    subgraph "Backend (Render)"
+        D(Node.js Server)
+        D_R["/api/ai-recipe"]
+        D_H["/api/dish-horoscope"]
     end
 
+    %% ==== EXTERNAL ====
     subgraph "External Services"
-        E("🧠 Google AI API")
+        E(Google AI API)
     end
 
-    %% User Interactions
-    A -->|Interacts with| C
-
-    %% Whistle Counter Flow (Frontend Only)
+    %% ==== FLOWS ====
+    A -->|Interacts with UI| C
     B -->|Audio Stream| C_WC
-    C -->|Controls| C_WC
-    style C_WC fill:#fecb2e
 
-    %% Timer & Music Flow (Frontend Only)
-    C -->|Controls| C_T
-    C -->|Controls| C_M
-    style C_T fill:#94e245
-    style C_M fill:#9e63f5
+    %% Whistle Counter
+    C --> C_WC
+    style C_WC fill:#ffeb99,stroke:#b58900,stroke-width:2px
 
-    %% AI-Powered Flows (Frontend -> Backend -> AI)
-    C -->|Requests Recipe| C_R
-    C_R -->|POST Request| D_R
-    D_R -->|Sends Prompt| E
-    E -->|Returns Recipe JSON| D_R
-    D_R -->|Forwards JSON| C_R
-    C_R -->|Updates UI| C
-    style C_R fill:#4f8eff
+    %% Timer & Music
+    C --> C_T
+    C --> C_M
+    style C_T fill:#b3ffb3,stroke:#228B22,stroke-width:2px
+    style C_M fill:#d1b3ff,stroke:#6a0dad,stroke-width:2px
 
-    C -->|Requests Horoscope| C_H
-    C_H -->|POST Request| D_H
-    D_H -->|Sends Prompt| E
-    E -->|Returns Horoscope JSON| D_H
-    D_H -->|Forwards JSON| C_H
-    C_H -->|Updates UI| C
-    style C_H fill:#f77062
+    %% Recipe Flow
+    C -->|Request Recipe| C_R
+    C_R -->|POST| D_R
+    D_R -->|Send Prompt| E
+    E -->|Recipe JSON| D_R
+    D_R --> C_R
+    C_R -->|Update UI| C
+    style C_R fill:#99ccff,stroke:#005f99,stroke-width:2px
 
-    %% Chat Flow (Frontend Only)
-    C -->|Opens Chat| C_Chat
-    style C_Chat fill:#2bd0d0
-```
+    %% Horoscope Flow
+    C -->|Request Horoscope| C_H
+    C_H -->|POST| D_H
+    D_H -->|Send Prompt| E
+    E -->|Horoscope JSON| D_H
+    D_H --> C_H
+    C_H -->|Update UI| C
+    style C_H fill:#ffb3b3,stroke:#cc0000,stroke-width:2px
 
-    end
+    %% Chat Flow
+    C --> C_Chat
+    style C_Chat fill:#a7ffff,stroke:#008b8b,stroke-width:2px
 
-    subgraph "External Services"
-        E(🧠 Google AI API)
-    end
-
-    %% User Interactions
-    A -->|Interacts with| C
-
-    %% Whistle Counter Flow (Frontend Only)
-    B -->|Audio Stream| C_WC
-    C -->|Controls| C_WC
-    style C_WC fill:#fecb2e
-
-    %% Timer & Music Flow (Frontend Only)
-    C -->|Controls| C_T
-    C -->|Controls| C_M
-    style C_T fill:#94e245
-    style C_M fill:#9e63f5
-
-    %% AI-Powered Flows (Frontend -> Backend -> AI)
-    C -->|Requests Recipe| C_R
-    C_R -->|POST Request| D_R
-    D_R -->|Sends Prompt| E
-    E -->|Returns Recipe JSON| D_R
-    D_R -->|Forwards JSON| C_R
-    C_R -->|Updates UI| C
-    style C_R fill:#4f8eff
-
-    C -->|Requests Horoscope| C_H
-    C_H -->|POST Request| D_H
-    D_H -->|Sends Prompt| E
-    E -->|Returns Horoscope JSON| D_H
-    D_H -->|Forwards JSON| C_H
-    C_H -->|Updates UI| C
-    style C_H fill:#f77062
-
-    %% Chat Flow (Frontend Only)
-    C -->|Opens Chat| C_Chat
-    style C_Chat fill:#2bd0d0
-```
